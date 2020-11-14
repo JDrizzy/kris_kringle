@@ -10,7 +10,8 @@ module KrisKringle
       match_participants
     end
 
-    def matches(options = default_options)
+    def matches(options)
+      options = default_options if options.empty?
       @matches.each do |match|
         if options[:output]
           if options[:anonymous]
@@ -38,8 +39,7 @@ module KrisKringle
         reset_matches if @gifters.empty?
         gifter = @gifters.pop
         @giftees.each_with_index do |giftee, index|
-          next if giftee_and_gifter_are_the_same?(gifter, giftee)
-          next if giftee_and_gifter_are_partners?(gifter, giftee)
+          next if gifter.duplicate_or_partner?(giftee)
 
           @matches << {
             gifter: gifter,
@@ -51,14 +51,6 @@ module KrisKringle
 
         break if @matches.size == @participants.size
       end
-    end
-
-    def giftee_and_gifter_are_the_same?(gifter, giftee)
-      gifter.name == giftee.name
-    end
-
-    def giftee_and_gifter_are_partners?(gifter, giftee)
-      gifter.name == giftee.partners_name
     end
 
     def reset_matches

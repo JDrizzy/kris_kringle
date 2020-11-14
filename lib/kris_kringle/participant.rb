@@ -9,5 +9,9 @@ module KrisKringle
       @mobile = mobile
       @partners_name = partners_name
     end
+
+    def duplicate_or_partner?(other_participant)
+      name == other_participant.name || name == other_participant.partners_name
+    end
   end
 end
