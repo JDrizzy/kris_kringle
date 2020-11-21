@@ -47,6 +47,15 @@ class KrisKringleTest < Minitest::Test
     refute_includes match_results, 'Rebecca => Jarrad'
   end
 
+  def test_sorting_hat_throws_error_if_duplicate_name_is_encountered
+    duplicate_name_test_csv_data = test_csv_data do |csv|
+      csv << ['Deandra', '', '0411111118']
+    end
+    assert_raises KrisKringle::Error do
+      KrisKringle.sorting_hat(duplicate_name_test_csv_data, output: false)
+    end
+  end
+
   private
 
   def test_csv_data
@@ -59,6 +68,7 @@ class KrisKringleTest < Minitest::Test
       csv << ['Deandra', '', '0411111115']
       csv << ['Dennis', '', '0411111116']
       csv << ['Frank', '', '0411111117']
+      yield(csv) if block_given?
     end
   end
 
