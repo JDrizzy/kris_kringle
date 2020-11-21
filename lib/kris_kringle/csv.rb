@@ -13,9 +13,9 @@ module KrisKringle
       ::CSV.parse(data, headers: true).each do |csv|
         duplicate_participant?(participants, csv['name'])
         participants << Participant.new(
-          name: csv['name'],
-          mobile: csv['mobile'],
-          partners_name: csv['partner']
+          name: csv.delete('name').last,
+          partners_name: csv.delete('partner').last,
+          other_details: csv.to_h
         )
       end
       participants

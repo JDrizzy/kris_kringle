@@ -2,12 +2,12 @@
 
 module KrisKringle
   class Participant
-    attr_reader :name, :partners_name, :mobile
+    attr_reader :name, :partners_name, :other_details
 
-    def initialize(name:, mobile:, partners_name: '')
+    def initialize(name:, partners_name: '', other_details: {})
       @name = name
-      @mobile = mobile
       @partners_name = partners_name
+      @other_details = other_details
     end
 
     def duplicate_or_partner?(other_participant)
